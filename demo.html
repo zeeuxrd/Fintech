@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Synergy is a secure, state-of-the-art cryptocurrency platform. From wireframes to polished interfaces, get instant feedback, fresh ideas, and clean code." />
+  <title>Synergy™ — Secure your crypto. Anytime, Anywhere.</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React & Babel CDNs -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+  <style>
+    /* Design System & Global Styles for Synergy */
+
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'DM Sans', var(--font-sans);
+      
+      --bg-dark: #07080b;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.6);
+      --text-muted: rgba(255, 255, 255, 0.4);
+      
+      --accent-white: #ffffff;
+      --accent-dark-btn: rgba(255, 255, 255, 0.08);
+      --accent-dark-btn-hover: rgba(255, 255, 255, 0.14);
+      --border-color: rgba(255, 255, 255, 0.1);
+      
+      --partner-bg: #ffffff;
+      --partner-border: #f0f1f3;
+      --partner-text: #595f6e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Background Glowing Effect */
+    .glow-effect {
+      position: absolute;
+      top: 10%;
+      right: -5%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(147, 51, 234, 0.08) 35%, rgba(6, 182, 212, 0.03) 60%, rgba(0, 0, 0, 0) 80%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-effect-left {
+      position: absolute;
+      bottom: 10%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Main Layout Wrapper */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 80px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    .nav-logo-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .new-badge {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-dropdown-icon {
+      width: 10px;
+      height: 6px;
+      opacity: 0.6;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-white);
+      color: #000000;
+      border: 1px solid transparent;
+      padding: 0 24px;
+      height: 48px;
+      line-height: 46px; /* Matches inner height (48px - 2px borders) */
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Mobile Menu Button */
+    .menu-btn {
+      display: none;
+      background-color: var(--accent-white);
+      color: #000000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 40px 80px 80px 80px;
+      width: 100%;
+      gap: 40px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.2vw + 1rem, 4.717rem); /* Min 40px, Max 75.47px */
+      font-weight: 800;
+      line-height: 0.958; /* Exactly 72.3px at 75.47px font size */
+      letter-spacing: -2.5px;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+      max-width: 600px;
+    }
+
+    .hero-description {
+      font-size: clamp(0.875rem, 0.4vw + 0.8rem, 1.125rem); /* Min 14px on mobile, Max 18px on desktop */
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-secondary {
+      background-color: var(--accent-dark-btn);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0 24px;
+      height: 48px;
+      line-height: 46px; /* Matches inner height (48px - 2px borders) */
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--accent-dark-btn-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(0);
+    }
+
+    .hero-artwork {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .cube-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: fit-content;
+      height: fit-content;
+      margin-left: auto;
+      animation: floatCube 6s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .cube-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 750px;
+      height: 750px;
+      background: radial-gradient(circle, hsla(225, 99%, 56%, 0.45) 0%, hsla(225, 99%, 56%, 0.15) 50%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .cube-image {
+      width: 95%;
+      max-width: 580px;
+      height: auto;
+      object-fit: contain;
+      animation: spinCube 25s linear infinite;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+    }
+
+    /* Animations */
+    @keyframes floatCube {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    @keyframes spinCube {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Bottom Partner/Client Logos Band - Scrolling Ticker */
+    .partners-band {
+      background-color: var(--partner-bg);
+      border-top: 1px solid var(--partner-border);
+      border-bottom: 1px solid var(--partner-border);
+      padding: 24px 0;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .partners-band:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: tickerScroll 25s linear infinite;
+    }
+
+    .ticker-group {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      padding-right: 60px;
+    }
+
+    .partner-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--partner-text);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      text-decoration: none;
+      opacity: 0.85;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .partner-logo:hover {
+      opacity: 1;
+      color: #000;
+    }
+
+    .partner-logo svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .partners-separator {
+      height: 48px;
+      width: 1px;
+      background-color: var(--partner-border);
+    }
+
+    /* Responsive Styles */
+
+    @media (max-width: 1200px) {
+      .navbar {
+        padding: 24px 40px;
+      }
+      .hero {
+        padding: 40px 40px 60px 40px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .navbar nav {
+        display: none; /* Remove empty nav slot from flex layout on mobile */
+      }
+      
+      .navbar .btn-primary {
+        display: none; /* Hide CTA button in header on mobile */
+      }
+      
+      .menu-btn {
+        display: block; /* Show MENU button */
+      }
+      
+      .hero {
+        grid-template-columns: 1fr; /* Stack layout */
+        text-align: center;
+        padding: 60px 16px 40px 16px;
+        gap: 60px;
+      }
+      
+      .hero-content {
+        align-items: center;
+      }
+      
+      .hero-title {
+        margin-bottom: 20px;
+        max-width: 100%;
+      }
+      
+      .hero-description {
+        margin-bottom: 32px;
+        max-width: 480px;
+      }
+      
+      .hero-actions {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        flex: 0 1 auto;
+        width: auto;
+        white-space: nowrap;
+      }
+      
+      .hero-artwork {
+        justify-content: center;
+        order: 2; /* Put image at the bottom */
+      }
+      
+      .cube-wrapper {
+        margin: 0 auto;
+      }
+      
+      .cube-image {
+        width: 95%;
+        max-width: min(100%, 570px); /* Restrict to screen size to prevent horizontal overflow */
+      }
+      
+      .ticker-group {
+        gap: 39px;
+        padding-right: 39px;
+      }
+      
+      .partner-logo {
+        font-size: 13px;
+        gap: 6px;
+      }
+      
+      .partner-logo svg {
+        width: 14px;
+        height: 14px;
+      }
+      
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 20px 16px;
+      }
+      
+      .hero-title {
+        letter-spacing: -1.5px;
+        line-height: 1.0;
+      }
+      
+      .hero-actions {
+        flex-direction: row;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        padding: 0 16px;
+        height: 56px;
+        line-height: 54px; /* Matches inner height (56px - 2px borders) */
+        font-size: 13px;
+        flex: 0 1 auto; /* Disable flex-grow so buttons only take up as much width as content + padding */
+        max-width: 100%;
+        min-width: 130px;
+      }
+      
+      .cube-image {
+        width: 100%;
+        max-width: min(100%, 480px); /* Restrict to screen size to prevent horizontal overflow */
+      }
+      
+      .cube-wrapper::before {
+        width: 550px;
+        height: 550px;
+        filter: blur(60px);
+      }
+      
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React Logic & UI Components -->
+  <script type="text/babel">
+    // Custom inline SVG icons for professional branding
+    const LogoIcon = () => (
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L22 12L12 22L2 12L12 2Z" fill="none" stroke="currentColor" strokeWidth="2.5"/>
+        <path d="M12 2L12 12L2 12" fill="currentColor"/>
+        <path d="M12 22L12 12L22 12" fill="currentColor"/>
+      </svg>
+    );
+
+    const HorizonIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 17h18v-2H3v2zm0-4h18v-2H3v2zm0-6v2h18V7H3z" />
+      </svg>
+    );
+
+    const CatalystIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 22h20L12 2zm0 4.8L18.5 19H5.5L12 6.8z" />
+      </svg>
+    );
+
+    const PhoenixIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 10l8 12 8-12-8-8zm0 4.5l4.5 4.5H7.5L12 6.5z" />
+      </svg>
+    );
+
+    const PulseIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14h-2v-4h2v4zm-4 0H9v-8h2v8zm-4 0H5v-4h2v4z" />
+      </svg>
+    );
+
+    const SolarisIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2.5"/>
+        <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    );
+
+    const AuroraIcon = () => (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3L2 12l10 9 10-9-10-9zm0 4.2l6.2 4.8-6.2 4.8-6.2-4.8 6.2-4.8z" />
+      </svg>
+    );
+
+    const ArrowUpRight = () => (
+      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    );
+
+    const ChevronDown = () => (
+      <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    );
+
+    function App() {
+      return (
+        <div className="app-container">
+          {/* Visual background atmospheric lights */}
+          <div className="glow-effect"></div>
+          <div className="glow-effect-left"></div>
+
+          {/* Navigation Header */}
+          <header className="navbar">
+            <div className="nav-logo">
+              <LogoIcon />
+              <span>Synergy™</span>
+            </div>
+
+            <nav>
+              <ul className="nav-links">
+                <li><a href="#products" className="nav-link">Products</a></li>
+                <li>
+                  <a href="#services" className="nav-link">
+                    Services <span className="new-badge">New</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#solutions" className="nav-link">
+                    Solutions <ChevronDown />
+                  </a>
+                </li>
+                <li><a href="#pricing" className="nav-link">Pricing</a></li>
+                <li><a href="#contact" className="nav-link">Contact</a></li>
+              </ul>
+            </nav>
+
+            <div>
+              <button className="btn-primary">Get started</button>
+              <button className="menu-btn">MENU</button>
+            </div>
+          </header>
+
+          {/* Hero Section */}
+          <main className="hero">
+            <section className="hero-content">
+              <h1 className="hero-title">Secure your crypto. Anytime, Anywhere.</h1>
+              <p className="hero-description">
+                From wireframes to polished interfaces — get instant feedback, 
+                fresh ideas, and clean code. Our tool works alongside you, 
+                so you spend less time stuck and more time shipping.
+              </p>
+              <div className="hero-actions">
+                <button className="btn-primary">
+                  Get started free <ArrowUpRight />
+                </button>
+                <button className="btn-secondary">Talk to sales</button>
+              </div>
+            </section>
+
+            <section className="hero-artwork">
+              <div className="cube-wrapper">
+                <img 
+                  src="images/assets/cube-helix 2.png" 
+                  alt="3D Holographic Cube Art" 
+                  className="cube-image" 
+                  draggable="false"
+                />
+              </div>
+            </section>
+          </main>
+
+          {/* Partners/Clients Band */}
+          <footer className="partners-band">
+            <div className="ticker-track">
+              <div className="ticker-group">
+                <a href="#synergy" className="partner-logo">
+                  <LogoIcon />
+                  <span>Synergy™</span>
+                </a>
+                <a href="#horizon" className="partner-logo">
+                  <HorizonIcon />
+                  <span>Horizon™</span>
+                </a>
+                <a href="#catalyst" className="partner-logo">
+                  <CatalystIcon />
+                  <span>Catalyst™</span>
+                </a>
+                <a href="#phoenix" className="partner-logo">
+                  <PhoenixIcon />
+                  <span>Phoenix™</span>
+                </a>
+                <a href="#pulse" className="partner-logo">
+                  <PulseIcon />
+                  <span>Pulse™</span>
+                </a>
+                <a href="#solaris" className="partner-logo">
+                  <SolarisIcon />
+                  <span>Solaris™</span>
+                </a>
+                <a href="#aurora" className="partner-logo">
+                  <AuroraIcon />
+                  <span>Aurora™</span>
+                </a>
+              </div>
+              {/* Duplicated group for seamless loop */}
+              <div className="ticker-group" aria-hidden="true">
+                <a href="#synergy" className="partner-logo">
+                  <LogoIcon />
+                  <span>Synergy™</span>
+                </a>
+                <a href="#horizon" className="partner-logo">
+                  <HorizonIcon />
+                  <span>Horizon™</span>
+                </a>
+                <a href="#catalyst" className="partner-logo">
+                  <CatalystIcon />
+                  <span>Catalyst™</span>
+                </a>
+                <a href="#phoenix" className="partner-logo">
+                  <PhoenixIcon />
+                  <span>Phoenix™</span>
+                </a>
+                <a href="#pulse" className="partner-logo">
+                  <PulseIcon />
+                  <span>Pulse™</span>
+                </a>
+                <a href="#solaris" className="partner-logo">
+                  <SolarisIcon />
+                  <span>Solaris™</span>
+                </a>
+                <a href="#aurora" className="partner-logo">
+                  <AuroraIcon />
+                  <span>Aurora™</span>
+                </a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // Render the App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
