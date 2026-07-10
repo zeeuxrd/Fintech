@@ -1,4 +1,5 @@
 import React from 'react';
+import cubeImage from '../images/assets/cube-helix 2.png';
 
 // Custom inline SVG icons for professional branding
 const SynergyIcon = () => (
@@ -126,7 +127,7 @@ function App() {
         <section className="hero-artwork">
           <div className="cube-wrapper">
             <img 
-              src="images/assets/cube-helix 2.png" 
+              src={cubeImage} 
               alt="3D Holographic Cube Art" 
               className="cube-image" 
               draggable="false"
